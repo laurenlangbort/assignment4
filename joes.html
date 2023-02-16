@@ -1,0 +1,228 @@
+
+<html>   
+
+<style type="text/css">   
+    body { 
+        background-color: rgb(242, 219, 188);
+    } 
+
+    div.header { 
+        font-size: 40px; 
+        color: rgb(141, 13, 13); 
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    } 
+
+    div.food {  
+        display: flex; 
+        flex-direction: row; 
+        flex-grow: 1;
+    } 
+
+    div.photos { 
+        display: flex; 
+        justify-content: center; 
+        flex-direction: column;  
+        flex-grow: 1;  
+        margin: 40pt
+    } 
+
+    div.image { 
+        display: block; 
+        width: 30%;
+    } 
+
+    span.foodItem {  
+        padding: 20px 0;    
+        display: block; 
+        width: 100%;
+        text-align: center; 
+        font-size: 25px; 
+        font-family: palatino; 
+    } 
+
+    span.cost { 
+        padding: 10px 0; 
+        display: block; 
+        width: 100%; 
+        text-align: center; 
+        font-size: 18px; 
+        font-family: palatino;
+    }  
+
+    div.order { 
+        font-size: 20px; 
+        font-family: palatino; 
+        text-decoration:none;   
+        list-style-type: none; 
+    }  
+
+    span.ord { 
+        font-size:30px;  
+        color: black;
+    }
+
+    div.sub { 
+        font-size: 20px;  
+        font-family: palatino;
+    }  
+    
+    span.tax { 
+        font-size: 30px; 
+        color: black; 
+    } 
+
+    span.final { 
+        font-size: 30px; 
+        color: black;
+    }
+
+   
+
+</style>
+
+
+<head> 
+    <title>Joes HotDogs</title>
+</head> 
+<body> 
+    <!-- <script src="joes.js"> </script>   -->
+    <div class="header">
+        <h1> Joe's Hotdogs </h1> 
+    </div> 
+    <div class="food"> 
+        <div class="photos"> 
+            <img class="image" src="hotdog.010.jpg">  
+            <span class="foodItem">Hotdogs</span> 
+            <span class="cost">$4.00</span>
+        </div>  
+        <div class="photos"> 
+            <img class="image" src="fries.009.jpg">  
+            <span class="foodItem">Fries</span> 
+            <span class="cost">$3.50</span>
+        </div>  
+        <div class="photos"> 
+            <img class="image" src="soda.011.jpg">  
+            <span class="foodItem">Sodas</span> 
+            <span class="cost">$1.75</span>
+        </div>
+    </div> 
+    <div class="order">  
+        <span class="ord"> Ordered: </span> 
+        <span id="hotdogs"> </span>  
+        <span> Hotdogs, </span>
+        <span id="fries"> </span> 
+        <span> Fries, </span>  
+        <span id="sodas"> </span>  
+        <span> Sodas </span>
+    </div>
+    <div class="sub">
+        <span class="ord">Subtotal: </span> 
+        <span>$</span> 
+        <span id="subtotal"></span> 
+    <br /> <span class="ord">Discount: </span>  
+        <!-- // <span>$</span>  -->
+        <span id="discount"></span> 
+    <br /> <span class="tax">Massachusetts Tax: </span>
+    <span>$</span> 
+    <span id="mealTax"></span> 
+    <br /> <span class="final">Total Amount: </span> 
+    <span>$</span> 
+    <span id="finalAmount"></span> 
+</div> 
+
+
+
+
+<script>  
+var hotdogs = prompt("How many hotdogs do you want?"); 
+var fries = prompt("How many fries do you want"); 
+var sodas = prompt("How many sodas do you want");  
+
+let hotdogCost; 
+let fryCost; 
+let sodaCost;  
+let subtotal;
+hotdogCost = hotdogs * 4;  
+fryCost = fries * 3.5; 
+sodaCost = sodas * 1.75; 
+subtotal = hotdogCost + fryCost + sodaCost;   
+
+
+
+ 
+var finalAmount;   
+var mealTax;
+if (subtotal >= 20)  
+{
+    var discount = subtotal * .10; 
+    var newSubtotal = subtotal - discount;  
+    discount = roundNum(discount);    
+    discount = twoDecimals(discount);
+    mealTax = newSubtotal * .0625; 
+    finalAmount = newSubtotal + mealTax; 
+    document.getElementById ("discount").innerHTML = "$" + discount;  
+}  
+else 
+{ 
+    document.getElementById("discount").innerHTML = "not applicable";
+    mealTax = subtotal * .0625;  
+    finalAmount = subtotal + mealTax; 
+}
+
+finalAmount = roundNum(finalAmount);
+mealTax = roundNum(mealTax);
+subtotal = roundNum(subtotal); 
+
+
+finalAmount = twoDecimals(finalAmount); 
+subtotal = twoDecimals(subtotal);   
+mealTax = twoDecimals(mealTax);
+
+document.getElementById("hotdogs").innerHTML = hotdogs; 
+document.getElementById("fries").innerHTML = fries; 
+document.getElementById("sodas").innerHTML = sodas;  
+ 
+document.getElementById("mealTax").innerHTML = mealTax; 
+document.getElementById("finalAmount").innerHTML = finalAmount; 
+document.getElementById ("subtotal").innerHTML = subtotal;
+
+
+
+
+function roundNum(num)
+{ 
+    var tempNum = num * 1000; 
+    if (tempNum % 10 >= 5) 
+    { 
+        tempNum = tempNum + 10; 
+    } 
+
+    tempNum = tempNum / 10; 
+    tempNum = tempNum - tempNum % 1; 
+    tempNum = tempNum / 100; 
+
+    return tempNum;
+} 
+
+function twoDecimals(num) 
+{ 
+    var stringNum = num.toString();  
+    if (stringNum.indexOf(".") == -1) 
+    { 
+        return stringNum + ".00";
+    }
+    const separate = stringNum.split('.');   
+    
+    if (separate[1].length == 1) 
+    {  
+        return separate[0] + "." + separate[1] + "0";
+    } else 
+    {   
+        return separate[0] + "." + separate[1];
+    }
+
+}
+</script>
+
+</body>
+</html>
